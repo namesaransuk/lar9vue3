@@ -3,7 +3,7 @@
     <div class="card m-5">
       <div class="card-body">
         <h2 class="text-center mb-4">R&D Project</h2>
-        <form action="">
+        <form method="post" @submit.prevent="register">
           <MDBRow class="mb-4">
             <MDBCol>
               <MDBInput
@@ -17,7 +17,7 @@
               <MDBInput
                 type="text"
                 label="Last name"
-                id="lastName"
+                id="lastname"
                 v-model="lastname"
               />
             </MDBCol>
@@ -56,7 +56,7 @@
           />
 
           <!-- Submit button -->
-          <MDBBtn color="primary" type="submit" v-on:click="submit" block class="mb-4"> Sign up </MDBBtn>
+          <MDBBtn color="primary" block class="mb-4"> Sign up </MDBBtn>
 
           <!-- Register buttons -->
           <div class="text-center">
@@ -84,12 +84,9 @@
 </template>
 
 <script>
-import { reactive } from "vue";
-
-let form = reactive({
-  nam
-})
-
+import axios from "axios";
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 import {
   MDBRow,
   MDBCol,
@@ -98,7 +95,35 @@ import {
   MDBBtn,
   MDBIcon,
 } from "mdb-vue-ui-kit";
-import { ref } from "vue";
+
+let form = reactive({
+  firstname: "",
+  lastname: "",
+  email: "",
+  password: "",
+  repassword: "",
+});
+
+let errors = ref([]);
+
+const router = useRouter();
+
+const register = async () => {
+  const response = await axios
+    .post("/api/v1/auth/register", form)
+    .then((res) => {
+      // console.log(res);
+      localStorage.setItem("token", res.data.data.token);
+      localStorage.setItem("firstname", res.data.data.firstname);
+
+      router.push({ name: "Home" });
+    })
+    .catch((err) => {
+      // console.log(err.response);
+      errors.value = err.response.data.message;
+    });
+};
+
 export default {
   components: {
     MDBRow,
@@ -109,17 +134,19 @@ export default {
     MDBIcon,
   },
   setup() {
-    const firstame = ref("");
+    const firstname = ref("");
     const lastname = ref("");
     const email = ref("");
     const password = ref("");
+    const repassword = ref("");
     // const form3SubscribeCheck = ref(true);
 
     return {
       firstname,
-      lastame,
+      lastname,
       email,
       password,
+      repassword,
       // form3SubscribeCheck,
     };
   },
