@@ -1,7 +1,12 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-dark">
+  <!-- <nav class="navbar navbar-expand-lg bg-dark">
     <div class="container-fluid">
-      <router-link :to="{ name:'Home' }" class="navbar-brand text-white" href="#">Laravel & Vue</router-link>
+      <router-link
+        :to="{ name: 'Home' }"
+        class="navbar-brand text-white"
+        href="#"
+        >Laravel & Vue</router-link
+      >
       <button
         class="navbar-toggler text-white"
         type="button"
@@ -16,13 +21,29 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link :to="{ name:'Home' }" class="nav-link text-white active" aria-current="page" href="#">Home</router-link>
+            <router-link
+              :to="{ name: 'Home' }"
+              class="nav-link text-white active"
+              aria-current="page"
+              href="#"
+              >Home</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link :to="{ name:'Login' }"  class="nav-link text-white" href="#">Login</router-link>
+            <router-link
+              :to="{ name: 'Login' }"
+              class="nav-link text-white"
+              href="#"
+              >Login</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link :to="{ name:'Register' }"  class="nav-link text-white" href="#">Register</router-link>
+            <router-link
+              :to="{ name: 'Register' }"
+              class="nav-link text-white"
+              href="#"
+              >Register</router-link
+            >
           </li>
           <li class="nav-item dropdown">
             <a
@@ -53,11 +74,78 @@
         </form>
       </div>
     </div>
-  </nav>
+  </nav> -->
+
+  <MDBNavbar expand="lg" dark bg="dark" container>
+    <MDBNavbarBrand href="#">Laravel & Vue</MDBNavbarBrand>
+    <MDBNavbarToggler
+      @click="collapse1 = !collapse1"
+      target="#navbarSupportedContent"
+    ></MDBNavbarToggler>
+    <MDBCollapse v-model="collapse1" id="navbarSupportedContent">
+      <MDBNavbarNav class="mb-2 mb-lg-0">
+        <MDBNavbarItem :to="{ name: 'Home' }" active> Home </MDBNavbarItem>
+        <MDBNavbarItem :to="{ name: 'Login' }"> Login </MDBNavbarItem>
+        <MDBNavbarItem :to="{ name: 'Register' }"> Register </MDBNavbarItem>
+        <MDBNavbarItem>
+          <!-- Navbar dropdown -->
+          <MDBDropdown class="nav-item" v-model="dropdown1">
+            <MDBDropdownToggle
+              tag="a"
+              class="nav-link"
+              @click="dropdown1 = !dropdown1"
+              >Dropdown</MDBDropdownToggle
+            >
+            <MDBDropdownMenu aria-labelledby="dropdownMenuButton">
+              <MDBDropdownItem href="#">Action</MDBDropdownItem>
+              <MDBDropdownItem href="#">Another Action</MDBDropdownItem>
+              <MDBDropdownItem href="#">Something else here</MDBDropdownItem>
+            </MDBDropdownMenu>
+          </MDBDropdown>
+        </MDBNavbarItem>
+      </MDBNavbarNav>
+    </MDBCollapse>
+  </MDBNavbar>
 </template>
 
 <script>
-export default {};
+import {
+  MDBBtn,
+  MDBNavbar,
+  MDBNavbarToggler,
+  MDBNavbarBrand,
+  MDBNavbarNav,
+  MDBNavbarItem,
+  MDBCollapse,
+  MDBDropdown,
+  MDBDropdownToggle,
+  MDBDropdownMenu,
+  MDBDropdownItem,
+} from "mdb-vue-ui-kit";
+import { ref } from "vue";
+export default {
+  components: {
+    MDBBtn,
+    MDBNavbar,
+    MDBNavbarToggler,
+    MDBNavbarBrand,
+    MDBNavbarNav,
+    MDBNavbarItem,
+    MDBCollapse,
+    MDBDropdown,
+    MDBDropdownToggle,
+    MDBDropdownMenu,
+    MDBDropdownItem,
+  },
+  setup() {
+    const collapse1 = ref(false);
+    const dropdown1 = ref(false);
+    return {
+      collapse1,
+      dropdown1,
+    };
+  },
+};
 </script>
 
 <style>
